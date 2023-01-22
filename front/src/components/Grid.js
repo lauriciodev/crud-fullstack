@@ -49,8 +49,15 @@ width: ${(props) => (props.width ? props.width : "auto")};
 
 
 
-const Grid = ({users,setUsers}) =>{
+const Grid = ({users,setUsers,setOnEdit}) =>{
 
+//update
+const handleUpdate = (item) =>{
+  setOnEdit(item);
+}
+
+
+//delete
   const handleDelete = async (id) =>{
     await axios
     .delete("http://localhost:8080/" + id)
@@ -80,7 +87,7 @@ return(
         <td width="30%">{item.Email}</td>
         <td width="30%" onlyWeb>{item.Telefone}</td>
         <td alignCenter width="5%">
-    <FaEdit />
+    <FaEdit onClick={() => handleUpdate(item.id)}  />
         </td>
         <td alignCenter width="5%">
     <FaTrash onClick={() => handleDelete(item.id)}  />

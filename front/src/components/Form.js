@@ -1,4 +1,6 @@
+import axios from 'axios';
 import React, {useEffect, useRef} from 'react';
+import { toast } from 'react-toastify';
 import styled from 'styled-components';
 
 const FormContainer = styled.form`
@@ -39,10 +41,68 @@ border-radius: 10px;
 
 
 
-const Form = ({onEdit}) =>{
+const Form = ({getUsers,onEdit, setOnEdit}) =>{
   const ref = useRef();
+
+
+useEffect(() =>{
+  if(onEdit){
+    const user = ref.current;
+    user.nome.value = onEdit.nome
+    user.email.value = onEdit.email
+    user.telefone.value = onEdit.telefone
+    user.data_nasc.value = onEdit.data_nasc
+  }
+},[onEdit]);
+
+const handleSubmit = async (e) =>{
+  e.preventDefault();
+
+
+  const user = ref.current;
+
+  if(!user.nome.value ||
+    !user.email.value ||
+    !user.telefone.value ||
+    !user.data_nasc.value
+    ){
+      return toast.warn("preencha todos os campos");
+    }
+
+
+if(onEdit){
+  await axios
+  .put("http://localhost:8080/"+ onEdit.id,{
+    nome:user.nome.value,
+    email:user.email.value,
+    telefone:user.telefone.value,
+    data_nasc:user.data_nasc.value,
+  }).then(({data}) => toast.success(data))
+  .catch(({data}) => toast.error(data));
+}else{
+  await axios
+  .post("http://localhost:8080/",{
+    nome:user.nome.value,
+    email:user.email.value,
+    telefone:user.telefone.value,
+    data_nasc:user.data_nasc.value,
+  }).then(({data}) => toast.success(data))
+  .catch(({data}) => toast.error(data));
+}
+
+
+    user.nome.value = "";
+    user.email.value = "";
+    user.telefone.value = "";
+    user.data_nasc.value = "";
+
+    setOnEdit(null);
+    getUsers();
+
+}
+
   return(
-    <FormContainer ref={ref}>
+    <FormContainer ref={ref} onSubmit={handleSubmit}>
     <InputArea>
       <Label>Nome</Label>
       <Input name="nome"/>
