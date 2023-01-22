@@ -13,3 +13,4 @@ db.query(q,(erro,data) =>{
 })
 
 };
+

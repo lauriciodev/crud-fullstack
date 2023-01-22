@@ -1,5 +1,4 @@
 import mysql from "mysql";
-import pass from "pass.js"
 
 export const db = mysql.createConnection({
   host:"localhost",
