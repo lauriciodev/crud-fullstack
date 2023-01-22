@@ -46,7 +46,7 @@ useEffect(() =>{
       <Container>
         <Title>Usuários</Title>
         <Form/>
-        <Grid users={users}/>
+        <Grid users={users} setUsers={setUsers}/>
       </Container>
       <ToastContainer autoClose={3000} position={toast.POSITION.BOTTOM_LEFT} />
     <GlobalStyle/>
