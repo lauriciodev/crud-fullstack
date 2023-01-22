@@ -9,7 +9,7 @@ app.use(cors());
 
 app.use("/",userRouter);
 
-app.listen(3000,(erro) =>{
+app.listen(8080,(erro) =>{
   if(erro){
     console.log(erro);
   }else{
